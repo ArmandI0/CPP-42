@@ -1,42 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   whatever.hpp                                       :+:      :+:    :+:   */
+/*   Array.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/08 17:01:50 by aranger           #+#    #+#             */
-/*   Updated: 2024/06/11 17:36:16 by aranger          ###   ########.fr       */
+/*   Created: 2024/06/10 13:56:10 by aranger           #+#    #+#             */
+/*   Updated: 2024/06/11 16:42:06 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef functions_hpp
-#define functions_hpp
-
-template <typename T> 
-void swap(T & a, T & b)
-{
-	T temp = a;
-	a = b;
-	b = temp;
-}
+#ifndef Array_hpp
+#define Array_hpp
+#include <iostream>
 
 template <typename T>
-const T& min(T const & a, T const & b)
+class Array
 {
-	if (a < b)
-		return a;
-	else
-		return b;
-}
-
-template <typename T>
-const T& max(T const & a, T const & b)
-{
-	if (a > b)
-		return a;
-	else
-		return b;
-}
+	private:
+		T *_array;
+		size_t _size;
+	public:
+		Array();
+		Array(unsigned int n);
+		Array(const Array<T> &toCopy);
+		~Array();
+		
+		Array<T>& operator=(const Array<T> &toCopy);
+		T& operator[](size_t i);
+		size_t	size() const;
+};
 
 #endif
