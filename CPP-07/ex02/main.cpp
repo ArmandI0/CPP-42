@@ -6,7 +6,7 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/08 16:58:35 by aranger           #+#    #+#             */
-/*   Updated: 2024/06/11 16:40:38 by aranger          ###   ########.fr       */
+/*   Updated: 2024/06/12 21:42:56 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,26 @@ int main(int, char**)
     }
     //SCOPE
     {
+		std::cout << " NUMBERS " << std::endl;
+		for (int i = 0; i < 10; i++)
+		{
+			std::cout << numbers[i] << " ";
+		}
+		std::cout << std::endl;
         Array<int> tmp = numbers;
+		std::cout << " = " << std::endl;
+		for (int i = 0; i < 10; i++)
+		{
+			std::cout << numbers[i] << " ";
+		}
+		std::cout << std::endl;
         Array<int> test(tmp);
+		std::cout << " COPY " << std::endl;
+		for (int i = 0; i < 10; i++)
+		{
+			std::cout << numbers[i] << " ";
+		}
+		std::cout << std::endl;
     }
 
     for (int i = 0; i < MAX_VAL; i++)
