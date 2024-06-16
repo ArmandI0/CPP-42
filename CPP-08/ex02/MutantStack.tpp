@@ -1,20 +1,39 @@
 #include "MutantStack.hpp"
 
-MutantStack::MutantStack()
+template <typename T>
+MutantStack<T>::MutantStack() : std::stack<T>()
 {
-}
 
-MutantStack::MutantStack(MutantStack const &cpy)
+}
+template <typename T>
+MutantStack<T>::MutantStack(MutantStack const &cpy)
 {
+	cpy++;
 	*this = cpy;
 }
 
-MutantStack & MutantStack::operator=(MutantStack const &cpy)
+template <typename T>
+MutantStack<T> & MutantStack<T>::operator=(MutantStack<T> const &cpy)
+{
+	
+	return this;
+}
+
+template <typename T>
+MutantStack<T>::~MutantStack()
 {
 
 }
 
-MutantStack::~MutantStack()
+template <typename T>
+typename std::stack<T>::container_type::iterator MutantStack<T>::begin()
 {
-
+	return this->begin();
 }
+
+template <typename T>
+typename std::stack<T>::container_type::iterator MutantStack<T>::end()
+{
+	return this->end();
+}
+

@@ -6,11 +6,12 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 12:57:49 by aranger           #+#    #+#             */
-/*   Updated: 2024/06/16 18:55:34 by aranger          ###   ########.fr       */
+/*   Updated: 2024/06/16 20:01:12 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include 
+#include "MutantStack.hpp"
+#include "MutantStack.tpp"
 
 int main()
 {
@@ -20,6 +21,7 @@ int main()
 	std::cout << mstack.top() << std::endl;
 	mstack.pop();
 	std::cout << mstack.size() << std::endl;
+	std::cout << mstack.top() << std::endl;
 	mstack.push(3);
 	mstack.push(5);
 	mstack.push(737);
@@ -31,8 +33,8 @@ int main()
 	--it;
 	while (it != ite)
 	{
-	std::cout << *it << std::endl;
-	++it;
+		std::cout << *it << std::endl;
+		++it;
 	}
 	std::stack<int> s(mstack);
 	return 0;

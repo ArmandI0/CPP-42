@@ -6,7 +6,6 @@ EXEC = exec
 
 SRCS = \
 		main.cpp \
-		Span.cpp \
 
 OBJS = $(SRCS:.cpp=.o)
 
