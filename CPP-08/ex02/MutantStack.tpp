@@ -8,14 +8,13 @@ MutantStack<T>::MutantStack() : std::stack<T>()
 template <typename T>
 MutantStack<T>::MutantStack(MutantStack const &cpy)
 {
-	cpy++;
 	*this = cpy;
 }
 
 template <typename T>
 MutantStack<T> & MutantStack<T>::operator=(MutantStack<T> const &cpy)
 {
-	
+	this = cpy;
 	return this;
 }
 
@@ -24,16 +23,17 @@ MutantStack<T>::~MutantStack()
 {
 
 }
-
 template <typename T>
-typename std::stack<T>::container_type::iterator MutantStack<T>::begin()
+typename MutantStack<T>::iterator MutantStack<T>::begin()
 {
-	return this->begin();
+	iterator a = std::stack<T>::c.begin();
+	return a;
 }
 
 template <typename T>
-typename std::stack<T>::container_type::iterator MutantStack<T>::end()
+typename MutantStack<T>::iterator MutantStack<T>::end()
 {
-	return this->end();
+	iterator a = std::stack<T>::c.end();
+	return a;
 }
 

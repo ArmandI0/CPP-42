@@ -49,6 +49,22 @@
 		"iostream": "cpp",
 		"istream": "cpp",
 		"ctime": "cpp",
-		"list": "cpp"
+		"list": "cpp",
+		"cstring": "cpp",
+		"bitset": "cpp",
+		"chrono": "cpp",
+		"condition_variable": "cpp",
+		"map": "cpp",
+		"set": "cpp",
+		"ratio": "cpp",
+		"mutex": "cpp",
+		"shared_mutex": "cpp",
+		"sstream": "cpp",
+		"stop_token": "cpp",
+		"thread": "cpp",
+		"cfenv": "cpp",
+		"cinttypes": "cpp",
+		"semaphore": "cpp",
+		"__nullptr": "cpp"
 	}
 }
