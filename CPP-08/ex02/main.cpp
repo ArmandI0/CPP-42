@@ -6,7 +6,7 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 12:57:49 by aranger           #+#    #+#             */
-/*   Updated: 2024/06/16 20:01:12 by aranger          ###   ########.fr       */
+/*   Updated: 2024/06/18 15:29:23 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,14 @@ int main()
 		std::cout << *it << std::endl;
 		++it;
 	}
-	std::stack<int> s(mstack);
+	std::cout << "cCopy constructor" << std::endl;
+	MutantStack<int> s(mstack);
+	it = s.begin();
+	ite = s.end();
+	while (it != ite)
+	{
+		std::cout << *it << std::endl;
+		++it;
+	}
 	return 0;
 }

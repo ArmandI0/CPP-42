@@ -6,7 +6,7 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 18:57:15 by aranger           #+#    #+#             */
-/*   Updated: 2024/06/17 21:01:35 by aranger          ###   ########.fr       */
+/*   Updated: 2024/06/18 15:28:39 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,14 @@ class MutantStack : public std::stack<T>
 {
 	public:
 		MutantStack();
-		MutantStack(MutantStack const &cpy);
-		MutantStack & operator=(MutantStack const &cpy);
+		MutantStack(MutantStack &cpy);
+		MutantStack & operator=(MutantStack & cpy);
 		~MutantStack();
 
 		typedef typename std::stack<T>::container_type::iterator iterator;
-		iterator begin();
+		iterator begin();		
 		iterator end();
+
 		
 	private:
 		
