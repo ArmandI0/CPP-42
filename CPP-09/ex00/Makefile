@@ -6,6 +6,7 @@ EXEC = btc
 
 SRCS = \
 		main.cpp \
+		BitcoinExchange.cpp \
 
 OBJS = $(SRCS:.cpp=.o)
 

@@ -10,3 +10,22 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef BitcoinExchange_hpp
+#define BitcoinExchange_hpp
+# include <iostream>
+# include <map>
+# include <string>
+# include <fstream>
+# include <sstream>
+
+class BitcoinExchange
+{
+    private:
+        std::map<std::string, double> _data;
+    public:
+        BitcoinExchange();
+        ~BitcoinExchange();
+        void printCsv();
+};
+
+#endif
