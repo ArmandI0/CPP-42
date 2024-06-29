@@ -6,7 +6,7 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 21:14:05 by aranger           #+#    #+#             */
-/*   Updated: 2024/06/29 16:32:20 by aranger          ###   ########.fr       */
+/*   Updated: 2024/06/29 17:54:30 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ class BitcoinExchange
     public:
 	    BitcoinExchange();
         ~BitcoinExchange();
-        void 	printCsv();
 		void	convertWallet(std::string wallet);
 };
 
