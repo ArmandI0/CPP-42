@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   RPN.cpp                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: armandanger <armandanger@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 19:06:17 by aranger           #+#    #+#             */
-/*   Updated: 2024/06/29 22:06:23 by aranger          ###   ########.fr       */
+/*   Updated: 2024/06/30 09:59:41 by armandanger      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	rpnCalculate(std::string entry)
 
 	for(size_t i = 0; i < entry.size(); i++)
 	{
-		if (std::isspace(entry[i]) == false)
+		if (std::isspace(entry[i]) == false && space == true)
 		{
 			start = i;
 			space = false;
@@ -51,12 +51,15 @@ void	rpnCalculate(std::string entry)
 			std::cerr << "Error : invalid input " << std::endl;
 			return;
 		}
-		if (std::isspace(entry[i]) == true && space == false)
+		if ((std::isspace(entry[i]) == true || i == entry.size() - 1) && space == false)
 		{
-			if (validOperator.find(entry[i]))
+			if (validOperator.find(entry[i]) != std::string::npos)
 			{
 				if(stack.size() < 2)
+				{
+					std::cout << "stacksize < 2" << std::endl;
 					return;
+				}
 				else
 				{
 					int val1 = stack.top();
@@ -69,8 +72,10 @@ void	rpnCalculate(std::string entry)
 			}
 			else 
 			{
-				std::string tmp = entry.substr(start, i);
+				std::cout << "add value" << std::endl;
+				std::string tmp = entry.substr(start, i - start);
 				int value = std::atoi(tmp.c_str());
+				std::cout << value << std::endl;
 				if (value < 0 || value > 10)
 				{
 					std::cerr << "Error : invalid number" << std::endl;
@@ -83,7 +88,7 @@ void	rpnCalculate(std::string entry)
 		}
 		if (size > 2)
 		{
-			std::cerr << "Error : invalid input " << std::endl;
+			std::cerr << "Error : invalid input size > 2" << std::endl;
 			return;
 		}
 		size++;
