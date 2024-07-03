@@ -6,15 +6,15 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 19:06:17 by aranger           #+#    #+#             */
-/*   Updated: 2024/07/03 16:14:22 by aranger          ###   ########.fr       */
+/*   Updated: 2024/07/03 16:23:48 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "RPN.hpp"
 
-int		doOperation(int val1, int val2, char op)
+double	doOperation(int val1, int val2, char op)
 {
-	if (op == 57)
+	if (op == 47)
 	{
 		if (val2 == 0)
 			throw std::out_of_range("Error : division by 0");
@@ -51,7 +51,6 @@ void	rpnCalculate(std::string entry)
 
 	while (iss >> tmp)
 	{
-		std::cout << "tmp value = " << tmp << std::endl;
 		if(tmp.length() < 4)
 		{
 			if (tmp.length() == 1 && validOperator.find(tmp[0]) != std::string::npos)
@@ -61,26 +60,19 @@ void	rpnCalculate(std::string entry)
 					int	top = stack.top();
 					stack.pop();
 					stack.top() = doOperation(stack.top(), top, tmp[0]);
-					std::cout << "stack top after operation = " << stack.top() << std::endl;
 				}
-				std::cout << "do operation " << std::endl;
 			}
 			else if(checkIsValid(tmp) == true)
 				stack.push(std::atoi(tmp.c_str()));	
 			else
-			{
-				std::cerr << "Error : invalid argument" << std::endl;
-				return;
-			}
+				throw std::out_of_range("Error : invalid argument");
 		}
 		else
-		{
-			std::cerr << "Error : invalid argument" << std::endl;
-			return;
-		}
+			throw std::out_of_range("Error : invalid argument");
 	}
 	if (stack.size() == 1)
 		std::cout << stack.top() << std::endl;
 	else
-		std::cerr << "Error : invalid argument" << std::endl;
+		throw std::out_of_range("Error : invalid argument");
 }
+
