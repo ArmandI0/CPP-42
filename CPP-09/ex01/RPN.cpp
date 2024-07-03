@@ -6,13 +6,13 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 19:06:17 by aranger           #+#    #+#             */
-/*   Updated: 2024/07/03 16:23:48 by aranger          ###   ########.fr       */
+/*   Updated: 2024/07/03 16:38:26 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "RPN.hpp"
 
-double	doOperation(int val1, int val2, char op)
+float	doOperation(float val1, float val2, char op)
 {
 	if (op == 47)
 	{
@@ -44,7 +44,7 @@ bool	checkIsValid(std::string nb)
 
 void	rpnCalculate(std::string entry)
 {
-	std::stack<int>			stack;
+	std::stack<float>			stack;
 	std::istringstream		iss(entry);
 	std::string				tmp;
 	std::string				validOperator = "/*-+";
@@ -57,13 +57,18 @@ void	rpnCalculate(std::string entry)
 			{
 				if (stack.size() >= 2)
 				{
-					int	top = stack.top();
+					float	top = stack.top();
 					stack.pop();
 					stack.top() = doOperation(stack.top(), top, tmp[0]);
 				}
 			}
 			else if(checkIsValid(tmp) == true)
-				stack.push(std::atoi(tmp.c_str()));	
+			{
+				int nb = std::atoi(tmp.c_str());
+				if (nb < 0 || nb > 9)
+					throw std::out_of_range("Error : invalid argument");
+				stack.push(static_cast<float>(nb));
+			}
 			else
 				throw std::out_of_range("Error : invalid argument");
 		}
