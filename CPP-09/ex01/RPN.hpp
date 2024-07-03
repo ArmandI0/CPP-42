@@ -6,7 +6,7 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 19:06:21 by aranger           #+#    #+#             */
-/*   Updated: 2024/06/29 21:52:12 by aranger          ###   ########.fr       */
+/*   Updated: 2024/07/03 15:07:14 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <iostream>
 # include <cstdlib>
 # include <stdexcept>
+# include <sstream>
 
 void	rpnCalculate(std::string entry);
 
