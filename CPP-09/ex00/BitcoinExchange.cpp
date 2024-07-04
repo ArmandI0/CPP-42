@@ -6,7 +6,7 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 21:14:00 by aranger           #+#    #+#             */
-/*   Updated: 2024/06/29 18:50:43 by aranger          ###   ########.fr       */
+/*   Updated: 2024/07/03 21:00:18 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,13 +91,13 @@ void	BitcoinExchange::convertWallet(std::string wallet)
 				convertDouble >> entry;
 				date = line.substr(0, i);
 				if (dateIsValid(date) == false)
-					std::cerr << "Error : invalid date." << line << std::endl;
+					std::cerr << "Error : invalid date : " << line << std::endl;
 				else if (convertDouble.fail())
 					std::cerr << "Error : invalid number." << std::endl;
 				else if (entry < 0.0)
 					std::cerr << "Error : not a positive number." << std::endl;
 				else if (entry > 1000)
-					std::cerr << "Error: too large a number." << std::endl;				
+					std::cerr << "Error: too large number." << std::endl;				
 				else
 				{
 					it = this->_data.lower_bound(date);

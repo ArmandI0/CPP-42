@@ -6,7 +6,7 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 19:06:17 by aranger           #+#    #+#             */
-/*   Updated: 2024/07/03 16:38:26 by aranger          ###   ########.fr       */
+/*   Updated: 2024/07/03 21:27:18 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ void	rpnCalculate(std::string entry)
 					stack.pop();
 					stack.top() = doOperation(stack.top(), top, tmp[0]);
 				}
+				else
+					throw std::out_of_range("Error : invalid argument");
 			}
 			else if(checkIsValid(tmp) == true)
 			{
