@@ -6,7 +6,7 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 21:14:00 by aranger           #+#    #+#             */
-/*   Updated: 2024/07/03 21:00:18 by aranger          ###   ########.fr       */
+/*   Updated: 2024/07/05 17:24:34 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,12 +126,14 @@ bool	dateIsValid(std::string date)
 		regfree(&regex);
 		return false;
 	}
-	int		year = std::atoi(date.c_str());
-	int		month = std::atoi(&date.c_str()[5]);
-	int		day = std::atoi(&date.c_str()[8]);
+	char	*error;
+	long	year = std::strtol(date.c_str(), &error,date.size());
+	long	month = std::strtol(&date.c_str()[5], &error,date.size());
+	long	day = std::strtol(&date.c_str()[8], &error,date.size());
 	int		fullMonth[7] = {1, 3, 5, 7, 8, 10, 12};
 	int		leanMonth[4] = {4, 6, 9, 11};
 	bool	bisextilYear = false;
+
 	if((year % 4 == 0 && year % 100 != 0) || year % 400 == 0)
 		bisextilYear = true;
 	if ((month == 2 && ((bisextilYear == false && day > 28) || (bisextilYear == true && day > 29))))
@@ -158,3 +160,13 @@ bool isSpace(char c)
 {
 	return (std::isspace(c));
 }
+
+// int     strToInt(std::string toConvert)
+// {
+// 	char *error;
+// 	long a = std::strtol(toConvert.c_str(), &error, toConvert.size());
+	
+
+	
+// }
+
