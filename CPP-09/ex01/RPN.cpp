@@ -6,7 +6,7 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 19:06:17 by aranger           #+#    #+#             */
-/*   Updated: 2024/07/03 21:27:18 by aranger          ###   ########.fr       */
+/*   Updated: 2024/07/06 16:54:40 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,19 +28,6 @@ float	doOperation(float val1, float val2, char op)
 		return val1 * val2;
 	
 }
-
-bool	checkIsValid(std::string nb)
-{
-	std::string				validNumbers = "0123456789";
-
-	for(size_t i = 0; i < nb.size(); i++)
-	{
-		if(validNumbers.find(nb[i]) == std::string::npos)
-			return false;
-	}
-	return true;
-}
-
 
 void	rpnCalculate(std::string entry)
 {
@@ -64,7 +51,7 @@ void	rpnCalculate(std::string entry)
 				else
 					throw std::out_of_range("Error : invalid argument");
 			}
-			else if(checkIsValid(tmp) == true)
+			else if(tmp.find_first_not_of("0123456789") != std::string::npos)
 			{
 				int nb = std::atoi(tmp.c_str());
 				if (nb < 0 || nb > 9)

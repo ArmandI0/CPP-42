@@ -6,7 +6,7 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 21:14:05 by aranger           #+#    #+#             */
-/*   Updated: 2024/07/05 16:15:31 by aranger          ###   ########.fr       */
+/*   Updated: 2024/07/06 16:52:22 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <cstdlib>
 # include <algorithm> 
 # include <cctype>
+# include <cerrno> 
 
 class BitcoinExchange
 {
@@ -35,6 +36,5 @@ class BitcoinExchange
 bool	dateIsValid(std::string date);
 bool 	findMonth(int month, int *months, int size);
 bool 	isSpace(char c);
-// int     strToInt(std::string toConvert);
 
 #endif

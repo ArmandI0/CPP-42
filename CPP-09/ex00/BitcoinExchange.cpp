@@ -6,7 +6,7 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 21:14:00 by aranger           #+#    #+#             */
-/*   Updated: 2024/07/05 17:24:34 by aranger          ###   ########.fr       */
+/*   Updated: 2024/07/06 16:51:01 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,22 +28,22 @@ BitcoinExchange::BitcoinExchange()
     {
 		if (lineNumber == 1 && line.compare("date,exchange_rate") != 0)
 		{
-			std::cerr << "Error : invalid header. " << std::endl;
+			std::cerr << "Data error : invalid header. " << std::endl;
 			break;
 		}
 		else if (lineNumber != 1)
 		{
 			i = line.find(',');
 			if (i == -1)
-				std::cerr << "Error : invalid format at line " << lineNumber << std::endl;
+				std::cerr << "Data error : invalid format at line " << lineNumber << std::endl;
 			else
 			{
-				std::stringstream convertDouble(line.substr(i + 1, line.size()));
-				convertDouble >> entry;
+				char* end;
+				entry = strtod(&line[i + 1], &end);
 				date = line.substr(0, i);
-				if (convertDouble.fail() || dateIsValid(date) == false)
+				if (end == &line[i + 1] || dateIsValid(date) == false || *end != 0)
 				{
-					std::cerr << "Error : invalid format at line " << lineNumber << std::endl;
+					std::cerr << "Data error : invalid format at line " << lineNumber << std::endl;
 				}
 				else
 					_data.insert(std::make_pair(date, entry));
@@ -77,7 +77,7 @@ void	BitcoinExchange::convertWallet(std::string wallet)
 		line.erase(std::remove_if(line.begin(), line.end(), isSpace), line.end());
 		if (lineNumber == 1 && line.compare("date|value") != 0)
 		{
-			std::cerr << "Error : invalid header." << std::endl;
+			std::cerr << "Error : invalid file or header." << std::endl;
 			break;
 		}
 		else if (lineNumber != 1)
@@ -87,12 +87,12 @@ void	BitcoinExchange::convertWallet(std::string wallet)
 				std::cerr << "Error : bad input " << line << std::endl;
 			else
 			{
-				std::stringstream convertDouble(line.substr(i + 1, line.size()));
-				convertDouble >> entry;
+				char* end;
+				entry = strtod(&line[i + 1], &end);
 				date = line.substr(0, i);
 				if (dateIsValid(date) == false)
 					std::cerr << "Error : invalid date : " << line << std::endl;
-				else if (convertDouble.fail())
+				else if (end == &line[i + 1] || *end != 0)
 					std::cerr << "Error : invalid number." << std::endl;
 				else if (entry < 0.0)
 					std::cerr << "Error : not a positive number." << std::endl;
@@ -101,7 +101,12 @@ void	BitcoinExchange::convertWallet(std::string wallet)
 				else
 				{
 					it = this->_data.lower_bound(date);
-					if (it == this->_data.end() || (it != this->_data.begin() && it->first.compare(date) != 0))
+					if(it == this->_data.end())
+					{
+						std::cerr << "Error : invalid date" << std::endl;
+						continue;
+					}
+					else if ((it != this->_data.begin() && it->first.compare(date) != 0))
 						it--;
 					std::cout << date << " => " << entry << " = " << entry * it->second << std::endl;
 				}
@@ -160,13 +165,3 @@ bool isSpace(char c)
 {
 	return (std::isspace(c));
 }
-
-// int     strToInt(std::string toConvert)
-// {
-// 	char *error;
-// 	long a = std::strtol(toConvert.c_str(), &error, toConvert.size());
-	
-
-	
-// }
-

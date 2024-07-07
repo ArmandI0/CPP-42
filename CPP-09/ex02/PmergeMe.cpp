@@ -6,7 +6,7 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 18:25:11 by aranger           #+#    #+#             */
-/*   Updated: 2024/07/03 20:37:57 by aranger          ###   ########.fr       */
+/*   Updated: 2024/07/06 18:12:30 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,7 @@ PmergeMe::PmergeMe()
 {
     
 }
-PmergeMe::PmergeMe(std::vector<std::string> entry)
-{
-    for(std::vector<std::string>::iterator it = entry.begin(); it != entry.end(); ++it)
-	{
-		if (it->find_first_not_of("0123456789") == std::string::npos || it)
-	}
-}
+
 PmergeMe::PmergeMe(PmergeMe &cpy)
 {
     
@@ -36,9 +30,27 @@ PmergeMe::~PmergeMe()
     
 }
 
+
+
 std::vector<int> PmergeMe::fordJhonsonSort(std::vector<int> tab)
 {
     
 }
+
+void PmergeMe::tabCreate(int ac, char **av)
+{
+	for (int i = 0; i < ac; i++)
+	{
+		std::string str(av[i]);
+		if (str.find_first_not_of("0123456789"))
+			throw std::invalid_argument("Error : invalid argument");
+		else if(str.size() > 10)
+			throw std::invalid_argument("Error : invalid argument");
+		else if(str.size() == 10 && str.compare("2147483647") > 0)
+			throw std::invalid_argument("Error : invalid argument");
+		
+	}
+}
+
 
 
