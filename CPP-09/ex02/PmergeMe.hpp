@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PmergeMe.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: armandanger <armandanger@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 18:25:17 by aranger           #+#    #+#             */
-/*   Updated: 2024/07/06 17:34:05 by aranger          ###   ########.fr       */
+/*   Updated: 2024/07/08 13:14:29 by armandanger      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
 class  PmergeMe
 {
     private :
-        std::vector<int>    vector;
-        std::deque<int>     deque;
+        std::vector<int>    _vector;
+        std::deque<int>     _deque;
         PmergeMe(PmergeMe &cpy);
         PmergeMe operator=(PmergeMe &cpy);
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PmergeMe.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: armandanger <armandanger@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 18:25:11 by aranger           #+#    #+#             */
-/*   Updated: 2024/07/06 18:12:30 by aranger          ###   ########.fr       */
+/*   Updated: 2024/07/08 13:15:41 by armandanger      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,11 @@ void PmergeMe::tabCreate(int ac, char **av)
 			throw std::invalid_argument("Error : invalid argument");
 		else if(str.size() == 10 && str.compare("2147483647") > 0)
 			throw std::invalid_argument("Error : invalid argument");
-		
+	}
+	for (int i = 0; i < ac; i++)
+	{
+		this->_vector.push_back(std::atoi(av[i]));
+		this->_deque.push_back(std::atoi(av[i]));
 	}
 }
 
