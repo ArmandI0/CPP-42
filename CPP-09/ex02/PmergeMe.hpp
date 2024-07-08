@@ -6,7 +6,7 @@
 /*   By: armandanger <armandanger@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 18:25:17 by aranger           #+#    #+#             */
-/*   Updated: 2024/07/08 13:14:29 by armandanger      ###   ########.fr       */
+/*   Updated: 2024/07/08 16:17:18 by armandanger      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,16 @@
 # include <vector>
 # include <iostream>
 # include <deque>
+# include <iterator>
+# include <utility>
+# include <algorithm>
 
 class  PmergeMe
 {
     private :
-        std::vector<int>    _vector;
-        std::deque<int>     _deque;
+        std::vector<int>					_vector;
+        std::deque<int>						_deque;
+
         PmergeMe(PmergeMe &cpy);
         PmergeMe operator=(PmergeMe &cpy);
 
@@ -29,7 +33,11 @@ class  PmergeMe
         ~PmergeMe();
         
         void    tabCreate(int ac, char **av);
-        static std::vector<int> fordJhonsonSort(std::vector<int> tab);
+		void	fordJhonsonSort();
 };
 
+template<class Container, class Pair>
+Pair makePair(Container tab);
+template<class Container>
+void printContainer(Container tab);
 #endif
