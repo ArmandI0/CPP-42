@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PmergeMe.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: armandanger <armandanger@student.42.fr>    +#+  +:+       +#+        */
+/*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 18:25:11 by aranger           #+#    #+#             */
-/*   Updated: 2024/07/08 16:24:22 by armandanger      ###   ########.fr       */
+/*   Updated: 2024/07/08 22:26:43 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,38 @@ PmergeMe::~PmergeMe()
     
 }
 
-void PmergeMe::fordJhonsonSort()
+void	PmergeMe::fordJhonsonSort()
 {
-	std::vector< std::pair <int, int> >	vPair;
-	std::deque< std::pair <int, int> >	dPair;
-	
-	vPair = makePair<std::vector<int>, std::vector<std::pair<int, int> > >(this->_vector);
-	dPair = makePair<std::deque<int>, std::deque<std::pair<int, int> > >(this->_deque);
-	printContainer(vPair);
-	printContainer(dPair);
+	mergeInsertion< std::vector<int>, std::vector<std::pair<int, int> > > (this->_vector);
+}
+
+template <class Container, class PairContainer>
+PairContainer mergeInsertion(Container c)
+{
+	PairContainer	pair;
+	pair = makePair<Container, PairContainer>(c);
+	std::cout << "wouhou" << std::endl;
+	if (c.size() <= 2)
+		return pair;
+	Container maxOfEachPairRight, maxOfEachPairLeft;
+	size_t i = 0;
+	for (typename PairContainer::iterator it = pair.begin(); it != pair.end(); ++it)
+	{
+		if (i <= pair.size())
+			maxOfEachPairLeft.push_back(it->first);
+		else
+			maxOfEachPairRight.push_back(it->first);
+	}
+	PairContainer	pairedLeft, pairedRight;
+	pairedRight = mergeInsertion<Container, PairContainer>(maxOfEachPairRight);
+	printContainer(pairedRight);
+	pairedLeft = mergeInsertion<Container, PairContainer>(maxOfEachPairLeft);
+	printContainer(pairedLeft);
+	for (typename PairContainer::iterator it = pairedRight.begin(); it != pairedRight.end(); ++it)
+	{
+		pairedLeft.push_back(*it);
+	}
+	return pairedLeft;
 }
 
 void PmergeMe::tabCreate(int ac, char **av)
