@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PmergeMe.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: armandanger <armandanger@student.42.fr>    +#+  +:+       +#+        */
+/*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 18:25:11 by aranger           #+#    #+#             */
-/*   Updated: 2024/07/09 18:27:04 by armandanger      ###   ########.fr       */
+/*   Updated: 2024/07/10 15:10:56 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,15 @@ Container mergeInsertion(Container values)
 	std::cout << "max of each pair = ";
 	printContainer(maxOfEachPair);
 	newValues = mergeInsertion<Container, PairContainer>(maxOfEachPair);
-	newValues.insert(newValues.begin(), pairedValues[0].second);
+	for (typename PairContainer::iterator it = pairedValues.begin(); it != pairedValues.end(); ++it)
+	{
+		if (it->second != -1)
+		{
+			typename Container::iterator insert;
+			insert = std::lower_bound(newValues.begin(), newValues.end(), it->second);
+			newValues.insert(insert, it->second);
+		}
+	}
 	std::cout << "new values after pair " << std::endl;
 	printContainer(newValues);
 	return newValues;
