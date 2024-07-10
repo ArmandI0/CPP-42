@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PmergeMe.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: armandanger <armandanger@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 18:25:17 by aranger           #+#    #+#             */
-/*   Updated: 2024/07/08 22:23:29 by aranger          ###   ########.fr       */
+/*   Updated: 2024/07/09 17:18:04 by armandanger      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,13 @@ class  PmergeMe
 template<class Container, class Pair>
 Pair makePair(Container tab);
 
-template<class pairContainer>
-void printContainer(pairContainer tab);
+template<class Container>
+void printContainer(Container tab);
 
-template <class Container, class pairContainer>
-pairContainer mergeInsertion(Container c);
+template<class pairContainer>
+void printPairContainer(pairContainer tab);
+
+template <class Container, class PairContainer>
+Container mergeInsertion(Container values);
 
 #endif

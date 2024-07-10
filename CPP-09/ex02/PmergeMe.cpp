@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PmergeMe.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
+/*   By: armandanger <armandanger@student.42.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 18:25:11 by aranger           #+#    #+#             */
-/*   Updated: 2024/07/08 22:26:43 by aranger          ###   ########.fr       */
+/*   Updated: 2024/07/09 18:27:04 by armandanger      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,36 +34,31 @@ PmergeMe::~PmergeMe()
 
 void	PmergeMe::fordJhonsonSort()
 {
+	std::cout << "starting list = ";
+	printContainer(this->_vector);
 	mergeInsertion< std::vector<int>, std::vector<std::pair<int, int> > > (this->_vector);
 }
 
 template <class Container, class PairContainer>
-PairContainer mergeInsertion(Container c)
+Container mergeInsertion(Container values)
 {
-	PairContainer	pair;
-	pair = makePair<Container, PairContainer>(c);
-	std::cout << "wouhou" << std::endl;
-	if (c.size() <= 2)
-		return pair;
-	Container maxOfEachPairRight, maxOfEachPairLeft;
-	size_t i = 0;
-	for (typename PairContainer::iterator it = pair.begin(); it != pair.end(); ++it)
+	if (values.size() <= 1)
+	 	return values;
+	PairContainer	pairedValues;
+	pairedValues = makePair<Container, PairContainer>(values);
+	printPairContainer(pairedValues);
+	Container		maxOfEachPair, newValues;
+	for (typename PairContainer::iterator it = pairedValues.begin(); it != pairedValues.end(); ++it)
 	{
-		if (i <= pair.size())
-			maxOfEachPairLeft.push_back(it->first);
-		else
-			maxOfEachPairRight.push_back(it->first);
+		maxOfEachPair.push_back(it->first);
 	}
-	PairContainer	pairedLeft, pairedRight;
-	pairedRight = mergeInsertion<Container, PairContainer>(maxOfEachPairRight);
-	printContainer(pairedRight);
-	pairedLeft = mergeInsertion<Container, PairContainer>(maxOfEachPairLeft);
-	printContainer(pairedLeft);
-	for (typename PairContainer::iterator it = pairedRight.begin(); it != pairedRight.end(); ++it)
-	{
-		pairedLeft.push_back(*it);
-	}
-	return pairedLeft;
+	std::cout << "max of each pair = ";
+	printContainer(maxOfEachPair);
+	newValues = mergeInsertion<Container, PairContainer>(maxOfEachPair);
+	newValues.insert(newValues.begin(), pairedValues[0].second);
+	std::cout << "new values after pair " << std::endl;
+	printContainer(newValues);
+	return newValues;
 }
 
 void PmergeMe::tabCreate(int ac, char **av)
@@ -108,8 +103,18 @@ Pair makePair(Container tab)
 	return sortedByPair;
 }
 
+template<class Container>
+void printContainer(Container tab)
+{
+	for (typename Container::iterator it = tab.begin(); it != tab.end(); ++it)
+	{
+		std::cout << *it << " ";
+	}
+	std::cout << std::endl;
+}
+
 template<class pairContainer>
-void printContainer(pairContainer tab)
+void printPairContainer(pairContainer tab)
 {
 	for (typename pairContainer::iterator it = tab.begin(); it != tab.end(); ++it)
 	{
