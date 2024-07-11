@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   PmergeMe.hpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: armandanger <armandanger@student.42.fr>    +#+  +:+       +#+        */
+/*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 18:25:17 by aranger           #+#    #+#             */
-/*   Updated: 2024/07/09 17:18:04 by armandanger      ###   ########.fr       */
+/*   Updated: 2024/07/11 12:44:22 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ class  PmergeMe
         
         void    tabCreate(int ac, char **av);
 
-		void	fordJhonsonSort();
+		template <class Container, class PairContainer>
+        void	PmergeMe::fordJhonsonSort();
 };
 
 template<class Container, class Pair>
