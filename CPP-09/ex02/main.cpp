@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: armandanger <armandanger@student.42.fr>    +#+  +:+       +#+        */
+/*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 17:15:04 by aranger           #+#    #+#             */
-/*   Updated: 2024/07/08 15:55:32 by armandanger      ###   ########.fr       */
+/*   Updated: 2024/07/12 11:28:30 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int main(int ac, char **av)
 	try
 	{
 		a.tabCreate(ac, av);
-		a.fordJhonsonSort();
+        a.sort();
 	}
 	catch(const std::exception& e)
 	{

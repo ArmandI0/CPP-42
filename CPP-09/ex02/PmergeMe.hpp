@@ -6,7 +6,7 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 18:25:17 by aranger           #+#    #+#             */
-/*   Updated: 2024/07/11 12:44:22 by aranger          ###   ########.fr       */
+/*   Updated: 2024/07/12 12:46:03 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,19 +33,22 @@ class  PmergeMe
         ~PmergeMe();
         
         void    tabCreate(int ac, char **av);
-
-		template <class Container, class PairContainer>
-        void	PmergeMe::fordJhonsonSort();
+        void    sort();
 };
 
-template<class Container, class Pair>
-Pair makePair(Container tab);
+template < class Container, class PairContainer >
+void    fordJhonsonSort(Container toSort);
+
+template<class Container, class PairContainer>
+PairContainer makePair(Container tab);
+template<class Container, class PairContainer>
+PairContainer makePair(PairContainer tab);
 
 template<class Container>
 void printContainer(Container tab);
 
-template<class pairContainer>
-void printPairContainer(pairContainer tab);
+template<class PairContainer>
+void printPairContainer(PairContainer tab);
 
 template <class Container, class PairContainer>
 Container mergeInsertion(Container values);
