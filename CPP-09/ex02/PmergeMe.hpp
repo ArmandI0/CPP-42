@@ -6,7 +6,7 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 18:25:17 by aranger           #+#    #+#             */
-/*   Updated: 2024/07/12 12:46:03 by aranger          ###   ########.fr       */
+/*   Updated: 2024/07/12 16:58:45 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <iterator>
 # include <utility>
 # include <algorithm>
+# include <cstring>
 
 class  PmergeMe
 {
@@ -41,8 +42,8 @@ void    fordJhonsonSort(Container toSort);
 
 template<class Container, class PairContainer>
 PairContainer makePair(Container tab);
-template<class Container, class PairContainer>
-PairContainer makePair(PairContainer tab);
+template<class Container>
+Container sortPair(Container tab);
 
 template<class Container>
 void printContainer(Container tab);
@@ -52,5 +53,7 @@ void printPairContainer(PairContainer tab);
 
 template <class Container, class PairContainer>
 Container mergeInsertion(Container values);
+template <class Container, class PairContainer>
+PairContainer mergeInsertion2(PairContainer values);
 
 #endif
