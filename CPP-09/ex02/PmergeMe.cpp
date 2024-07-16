@@ -6,7 +6,7 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 18:25:11 by aranger           #+#    #+#             */
-/*   Updated: 2024/07/16 14:29:26 by aranger          ###   ########.fr       */
+/*   Updated: 2024/07/16 18:02:26 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ PmergeMe::~PmergeMe()
 
 void    PmergeMe::sort()
 {
-	fordJhonsonSort<std::vector<int>, std::vector<std::vector<int>*> >(this->_vector);
+	fordJhonsonSort<std::vector<int>, std::vector<int*> >(this->_vector);
 }
 
 template <class Container, class ptrContainer>
@@ -66,6 +66,7 @@ ptrContainer mergeInsertion(Container values, ptrContainer ptr)
 	if (ptr.size() <= 1)
 	{
 		maxOfEachPtr.push_back(&(values[0]));
+		std::cout << "newValues = " << *maxOfEachPtr[0];
 		std::cout << "maxOfEachPtr = ";
 		printContainer(maxOfEachPtr);
 		return maxOfEachPtr;
@@ -77,20 +78,25 @@ ptrContainer mergeInsertion(Container values, ptrContainer ptr)
 	values = sortPair<Container>(values);
 	
 	/* PUSH MAX OF EACH PAIR */
-
+	typename Container::iterator it2;
+	it2 = values.begin();
+	maxOfEachPtr.push_back(&values[0]);
+	std::cout << "values adr = ";
+	printAdrContainer(values);
+	
+	std::cout << " &values[0] " << &values[0] << " valueMaxOfEachPtr[0] " << maxOfEachPtr[0] << "  &*it2 = " << &*it2 << "  *it2 = " << *it2 <<std::endl;
+	
 	for (typename Container::iterator it = values.begin(); it != values.end(); ++it)
 	{
 		if (it + 1 != values.end())
 		{
-			maxOfEachPtr.push_back(&it);
+			//maxOfEachPtr.push_back(&(*it));
 			maxOfEachPair.push_back((*it));
 			it++;
 		}
 	}
 	std::cout << "Values = ";
 	printContainer(values);
-	std::cout << "values adr = ";
-	printAdrContainer(values);
 	std::cout << "maxOfEachPair = ";
 	printContainer(maxOfEachPair);
 	std::cout << "maxOfEachPtr = ";
@@ -100,6 +106,10 @@ ptrContainer mergeInsertion(Container values, ptrContainer ptr)
 
 	newValues = mergeInsertion<Container, ptrContainer>(maxOfEachPair, maxOfEachPtr);
 
+	// if ((newValues[0] + 1) != &*values.end())
+	// 	newValues.push_back((newValues[0] + 1));
+
+	std::cout << "DEEP = " << g_deep << std::endl;
 	std::cout << "---------------------------------------------------------------------------------------------------------" << std::endl;
 	std::cout << "values = ";
 	printContainer(values);
@@ -109,8 +119,13 @@ ptrContainer mergeInsertion(Container values, ptrContainer ptr)
 	printContainer(maxOfEachPair);
 	std::cout << std::endl << "maxOfEachPtr = ";
 	printContainer(maxOfEachPtr);
-	std::cout << "newValues = ";
+	std::cout <<"maxOfEachPtr = ";
+	printPtrContainer(maxOfEachPtr);
+	std::cout << std::endl;
+	std::cout << "TEST newValues = "; //<< *(maxOfEachPtr[0]) << " " << *(maxOfEachPtr[0] + 1) << "  " << *(maxOfEachPtr[0]) << "  //";
 	printContainer(newValues);
+	std::cout << std::endl;
+	printPtrContainer(newValues);
 	std::cout << std::endl;
 	std::cout << "---------------------------------------------------------------------------------------------------------" << std::endl;
 	return newValues;
@@ -199,33 +214,36 @@ void printContainer(Container tab)
 }
 
 template<class Container>
-void printAdrContainer(Container tab)
+void printAdrContainer(Container &tab)
 {
+	int i = 0;
 	for (typename Container::iterator it = tab.begin(); it != tab.end(); ++it)
 	{
 		if (it + 1 != tab.end())
 		{
-			std::cout << "(" << &(*it) << ", " << &(*(it + 1)) << ")";
+			std::cout << "(" << &tab[i] << ", " << &(tab[i + 1]) << ")";
 			it++;
+			i++;
 		}
 		else
 			std::cout << *it;
+		i++;
 	}
 	std::cout << std::endl;
 }
 
 template<class Container>
-void printPtrContainer(Container tab)
+void printPtrContainer(Container &tab)
 {
 	for (typename Container::iterator it = tab.begin(); it != tab.end(); ++it)
 	{
 		if (it + 1 != tab.end())
 		{
-			std::cout << "(" << *(*it) << ", " << *(*(it + 1)) << ")";
+			std::cout << "(" << *(*it) << ", " << *(*it + 1) << ")";
 			it++;
 		}
 		else
-			std::cout << *it;
+			std::cout << **it;
 	}
 	std::cout << std::endl;
 }

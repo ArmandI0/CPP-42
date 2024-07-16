@@ -6,7 +6,7 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 18:25:17 by aranger           #+#    #+#             */
-/*   Updated: 2024/07/16 13:03:46 by aranger          ###   ########.fr       */
+/*   Updated: 2024/07/16 17:55:16 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,10 @@ template<class PairContainer>
 void printPairContainer(PairContainer tab);
 
 template<class Container>
-void printPtrContainer(Container tab);
+void printPtrContainer(Container &tab);
 
 template<class Container>
-void printAdrContainer(Container tab);
+void printAdrContainer(Container &tab);
 
 template <class Container, class ptrContainer>
 ptrContainer mergeInsertion(Container values, ptrContainer ptr);
