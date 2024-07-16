@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   PmergeMe.cpp                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: armandanger <armandanger@student.42.fr>    +#+  +:+       +#+        */
+/*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 18:25:11 by aranger           #+#    #+#             */
-/*   Updated: 2024/07/15 17:20:12 by armandanger      ###   ########.fr       */
+/*   Updated: 2024/07/16 14:29:26 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PmergeMe.hpp"
+int	g_deep = 0;
 
 PmergeMe::PmergeMe()
 {
@@ -34,7 +35,7 @@ PmergeMe::~PmergeMe()
 
 void    PmergeMe::sort()
 {
-	fordJhonsonSort<std::vector<int>, std::vector<int*> >(this->_vector);
+	fordJhonsonSort<std::vector<int>, std::vector<std::vector<int>*> >(this->_vector);
 }
 
 template <class Container, class ptrContainer>
@@ -45,7 +46,7 @@ void	fordJhonsonSort(Container toSort)
 	{
 		startingList.push_back(&(*it));
 	}
-	printContainer(startingList);
+	//printContainer(startingList);
 	//Container		allMax;
 
 	startingList = mergeInsertion<Container, ptrContainer>(toSort, startingList);
@@ -55,53 +56,63 @@ void	fordJhonsonSort(Container toSort)
 template <class Container, class ptrContainer>
 ptrContainer mergeInsertion(Container values, ptrContainer ptr)
 {
-	/* STOP CONDITION */
-	if (ptr.size() <= 1)
-	 	return ptr;
+	Container			maxOfEachPair;
+	ptrContainer		maxOfEachPtr, newValues;
 
+	/* STOP CONDITION */
+	g_deep++; //define deep to debug
+	std::cout << "DEEP = " << g_deep << std::endl;
+	
+	if (ptr.size() <= 1)
+	{
+		maxOfEachPtr.push_back(&(values[0]));
+		std::cout << "maxOfEachPtr = ";
+		printContainer(maxOfEachPtr);
+		return maxOfEachPtr;
+	}
+
+	
 	/* MAKE PAIR AND SORT EACH PAIRS */
 
 	values = sortPair<Container>(values);
-	printContainer(values);
-
+	
 	/* PUSH MAX OF EACH PAIR */
 
-	Container			maxOfEachPair;
-	ptrContainer		maxOfEachPtr, newValues;
 	for (typename Container::iterator it = values.begin(); it != values.end(); ++it)
 	{
 		if (it + 1 != values.end())
 		{
-			maxOfEachPtr.push_back(&(*it));
+			maxOfEachPtr.push_back(&it);
 			maxOfEachPair.push_back((*it));
 			it++;
 		}
 	}
-	//printContainer(maxOfEachPair);
+	std::cout << "Values = ";
+	printContainer(values);
+	std::cout << "values adr = ";
+	printAdrContainer(values);
+	std::cout << "maxOfEachPair = ";
+	printContainer(maxOfEachPair);
+	std::cout << "maxOfEachPtr = ";
+	printContainer(maxOfEachPtr);
 
 	/* RECURSIVLY SORT PAIRS */
 
 	newValues = mergeInsertion<Container, ptrContainer>(maxOfEachPair, maxOfEachPtr);
-	std::cout << "newValues + 1 = " << *(maxOfEachPtr[0]) << std::endl;
-	// if ((newValues[0] + 1) != &(*values.end()))
-    // 	newValues.insert((newValues.begin()), *(newValues[0]) + 1);
-	// if (std::next(newValues[0]) != values.end())
-	// 	newValues.insert(newValues.begin(), (newValues[0] + 1));
-	// for (typename Container::iterator it = newValues.begin(); it != newValues.end(); ++it)
-	// {
-	// 	if (it + 1 != values.end())
-	// 	{
-	// 		maxOfEachPair.push_back(*it);
-	// 		it++;
-	// 	}
-	// }
+
+	std::cout << "---------------------------------------------------------------------------------------------------------" << std::endl;
 	std::cout << "values = ";
 	printContainer(values);
-	std::cout << "newValues = ";
-	printPtrContainer(ptr);
+	std::cout << "values adr = ";
+	printAdrContainer(values);
 	std::cout << "maxOfEachPair = ";
 	printContainer(maxOfEachPair);
+	std::cout << std::endl << "maxOfEachPtr = ";
+	printContainer(maxOfEachPtr);
+	std::cout << "newValues = ";
+	printContainer(newValues);
 	std::cout << std::endl;
+	std::cout << "---------------------------------------------------------------------------------------------------------" << std::endl;
 	return newValues;
 }
 
@@ -150,8 +161,8 @@ PairContainer makePair(Container tab)
 template<class Container>
 Container sortPair(Container tab)
 {
-	std::cout << "BEFORE = ";
-	printContainer(tab);
+	// std::cout << "BEFORE = ";
+	// printContainer(tab);
 	//std::cout << std::endl;
 	//std::cout << "SORT   = ";
 	for (typename Container::iterator it = tab.begin(); it != tab.end(); ++it)
@@ -165,9 +176,9 @@ Container sortPair(Container tab)
 		}
 	}
 	//std::cout << std::endl;
-	std::cout << "AFTER  = ";
-	printContainer(tab);
-	std::cout << std::endl;
+	// std::cout << "AFTER  = ";
+	// printContainer(tab);
+	// std::cout << std::endl;
 	return tab;
 }
 
@@ -179,6 +190,22 @@ void printContainer(Container tab)
 		if (it + 1 != tab.end())
 		{
 			std::cout << "(" << (*it) << ", " << (*(it + 1)) << ")";
+			it++;
+		}
+		else
+			std::cout << *it;
+	}
+	std::cout << std::endl;
+}
+
+template<class Container>
+void printAdrContainer(Container tab)
+{
+	for (typename Container::iterator it = tab.begin(); it != tab.end(); ++it)
+	{
+		if (it + 1 != tab.end())
+		{
+			std::cout << "(" << &(*it) << ", " << &(*(it + 1)) << ")";
 			it++;
 		}
 		else
