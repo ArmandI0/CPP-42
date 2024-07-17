@@ -6,11 +6,13 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 18:25:11 by aranger           #+#    #+#             */
-/*   Updated: 2024/07/16 18:32:18 by aranger          ###   ########.fr       */
+/*   Updated: 2024/07/18 00:03:49 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PmergeMe.hpp"
+#include "Pair.hpp"
+
 int	g_deep = 0;
 
 PmergeMe::PmergeMe()
@@ -35,98 +37,164 @@ PmergeMe::~PmergeMe()
 
 void    PmergeMe::sort()
 {
-	fordJhonsonSort<std::vector<int>, std::vector<int*> >(this->_vector);
+	fordJhonsonSort<std::vector<int>, std::vector<Pair> >(this->_vector);
 }
 
 template <class Container, class ptrContainer>
 void	fordJhonsonSort(Container toSort)
 {
-	ptrContainer	startingList;
-	for (typename Container::iterator it = toSort.begin(); it != toSort.end(); ++it)
+	ptrContainer	pair;
+	
+	for(typename Container::iterator it = toSort.begin(); it != toSort.end(); ++it)
 	{
-		startingList.push_back(&(*it));
+		if (it + 1 != toSort.end())
+		{
+			pair.push_back(Pair(*it, *(it + 1)));
+			++it;
+		}
+		else
+			pair.push_back(Pair(*it, -1));
 	}
-	//printContainer(startingList);
-	//Container		allMax;
-
-	startingList = mergeInsertion<Container, ptrContainer>(toSort, startingList);
-
+	for(typename ptrContainer::iterator it = pair.begin(); it != pair.end(); ++it)
+	{
+		it->printPair();
+		it->sortPair();
+		it->printPair();		
+	}
+	pair = mergeInsertion<Container, ptrContainer>(pair);
 }
 
 template <class Container, class ptrContainer>
-ptrContainer mergeInsertion(Container values, ptrContainer ptr)
+ptrContainer mergeInsertion(ptrContainer pairs)
 {
-	Container			maxOfEachPair;
-	ptrContainer		maxOfEachPtr, newValues;
-
-	/* STOP CONDITION */
-	g_deep++; //define deep to debug
-	std::cout << "DEEP = " << g_deep << std::endl;
-	
-	if (ptr.size() <= 1)
+	std::cout << "DANS MERGE INSERTION" << std::endl;
+	ptrContainer	newTab;
+	if (pairs.size() <= 1)
+		return pairs;
+	for (typename ptrContainer::iterator it = pairs.begin(); it != pairs.end(); ++it)
 	{
-		return ptr;
-		// maxOfEachPtr.push_back(&(values[0]));
-		// std::cout << "newValues = " << *maxOfEachPtr[0];
-		// std::cout << "maxOfEachPtr = ";
-		// printContainer(maxOfEachPtr);
-		// return maxOfEachPtr;
-	}
-
-	
-	/* MAKE PAIR AND SORT EACH PAIRS */
-
-	values = sortPair<Container>(values);
-	
-	/* PUSH MAX OF EACH PAIR */
-
-	for (typename Container::iterator it = values.begin(); it != values.end(); ++it)
-	{
-		if (it + 1 != values.end())
+		if (it + 1 != pairs.end())
 		{
-			maxOfEachPtr.push_back(&(*it));
-			maxOfEachPair.push_back((*it));
-			it++;
+			std::cout << "&*it = " << &*it << " &(*(it + 1) = " << &*(it + 1) << std::endl;
+			newTab.push_back(Pair(&*it, &*(it + 1)));
+			++it;
 		}
+		else
+			(newTab.end() - 1)->addRest(&*it);
 	}
-	std::cout << "Values = ";
-	printContainer(values);
-	std::cout << "values adr = ";
-	printAdrContainer(values);
-	std::cout << "maxOfEachPair = ";
-	printContainer(maxOfEachPair);
-	std::cout << "maxOfEachPtr = ";
-	printContainer(maxOfEachPtr);
-
-	/* RECURSIVLY SORT PAIRS */
-
-	newValues = mergeInsertion<Container, ptrContainer>(maxOfEachPair, maxOfEachPtr);
-	typename Container::iterator minOfPair = maxOfEachPair.begin();
-	for (typename Container::iterator it = maxOfEachPair.begin(); it != maxOfEachPair.end(); ++it)
+	for(typename ptrContainer::iterator it = newTab.begin(); it != newTab.end(); ++it)
 	{
-		if (*it < *minOfPair)
-			minOfPair = it;
+		it->printPair();
+		it->sortPair();
+		it->printPair();		
 	}
-	newValues.push_back(&(*minOfPair));
+	ptrContainer output = mergeInsertion<Container, ptrContainer>(newTab);
+	std::cout << " AFTER RECURCIVE " << std::endl;
+	ptrContainer sortedList;
+	Pair* rest = NULL;
 	
+	/* PUSH_BACK LOWER VALUE */
+	
+	for(typename ptrContainer::iterator it = output.begin(); it != output.end(); ++it)
+	{
+		if (it->getRest() != NULL)
+			rest = &*(it->getRest()); 
+		sortedList.push_back(*(it->getPairMax()));
+	}
+	sortedList.push_back(*(output.end() - 1)->getPairMin());
 
-	std::cout << "---------------------------------------------------------------------------------------------------------" << std::endl;
-	std::cout << "MIN OF PAIR = " << *minOfPair << std::endl;
-	std::cout << "values = ";
-	printContainer(values);
-	std::cout << "values adr = ";
-	printAdrContainer(values);
-	std::cout << "maxOfEachPair = ";
-	printContainer(maxOfEachPair);
-	std::cout << std::endl << "maxOfEachPtr = ";
-	printContainer(maxOfEachPtr);
-	std::cout <<"maxOfEachPtr = ";
-	printPtrContainer(maxOfEachPtr);
-	std::cout << std::endl;
-	std::cout << "TEST newValues = ";
-	printContainer(newValues);
-	std::cout << "---------------------------------------------------------------------------------------------------------" << std::endl;
-	return newValues;
+	/* INSERT REST IF EXIST */
+	
+	// if (rest != NULL)
+	// {
+	// 	std::cout << "RESTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT" << std::endl;
+	// 	rest->printPair();
+	// 	std::cout << "RESTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT" << std::endl;
+	// }
+	if (rest != NULL)
+	{
+		std::vector<Pair>::iterator it = std::lower_bound(sortedList.begin(), sortedList.end(), *rest, pairCompare);
+		sortedList.insert(it, *rest);
+	}
+
+	/* INSERT MIN */
+	
+	// for(typename ptrContainer::iterator it = output.begin(); (it + 1) != output.end(); ++it)
+	// {
+	// 	std::vector<Pair>::iterator insert = std::lower_bound(sortedList.begin(), sortedList.end(), *(it->getPairMin()), pairCompare);
+	// 	sortedList.insert(insert, *(it->getPairMin()));
+	// }
+	
+	typename ptrContainer::iterator start, end;
+	unsigned int index = 0;
+	unsigned int n = 1;
+	unsigned int JacobsthalNumber = 0;
+
+	for (typename ptrContainer::iterator it = output.begin(); (it + 1) != output.end(); ++it)
+	{
+		std::cout << " it ";
+		//it->printPair();
+		start = end = it;
+		index = 0;
+		JacobsthalNumber = JacobsthalSuitCalcul(n);
+		std::cout << "JacobsthalNumber = " << JacobsthalNumber << std::endl;
+		
+		// Incrémente end jusqu'à atteindre JacobsthalNumber ou la fin du conteneur
+		while (index < JacobsthalNumber && (end + 1) != output.end())
+		{
+			index++;
+			end++;
+		}
+		std::cout << "JACOB " << std::endl;
+		// Insère les éléments dans sortedList dans l'ordre inverse
+		while (end != start)
+		{
+			std::vector<Pair>::iterator insert = std::lower_bound(sortedList.begin(), sortedList.end(), *(end->getPairMin()), pairCompare);
+			sortedList.insert(insert, *(end->getPairMin()));
+			--end;
+		}
+		
+		//Assurez-vous d'insérer start->getPairMin() si start != end
+		if (start != end)
+		{
+			std::vector<Pair>::iterator insert = std::lower_bound(sortedList.begin(), sortedList.end(), *(start->getPairMin()), pairCompare);
+			sortedList.insert(insert, *(start->getPairMin()));
+		}
+		n++;
+		//it += JacobsthalNumber;
+	}
+
+
+	// for(typename ptrContainer::iterator it = output.begin(); (it + 1) != output.end(); ++it)
+	// {
+	// 	std::cout << " it " ;
+	// 	it->printPair();
+	// 	start = end = it;
+	// 	index = 0;
+	// 	JacobsthalNumber = JacobsthalSuitCalcul(n);
+	// 	std::cout << "JacobsthalNumber = " << JacobsthalNumber << std::endl;
+	// 	while (index < JacobsthalNumber && end + 2 != output.end())
+	// 	{
+	// 		index++;
+	// 		it++;
+	// 		end++;
+	// 		//end->printPair();
+	// 	}
+	// 	std::cout << "JACOB " << std::endl;	
+	// 	while (end != start)
+	// 	{
+	// 		std::vector<Pair>::iterator insert = std::lower_bound(start, sortedList.end(), *(end->getPairMin()), pairCompare);
+	// 		sortedList.insert(insert, *(end->getPairMin()));
+	// 		end--;
+	// 	}
+	// 	n++;
+	// }
+
+	for(typename ptrContainer::iterator it = sortedList.begin(); it != sortedList.end(); ++it)
+	{
+		it->printPair();		
+	}
+	return sortedList;
 }
 
 void PmergeMe::tabCreate(int ac, char **av)
@@ -172,30 +240,6 @@ PairContainer makePair(Container tab)
 }
 
 template<class Container>
-Container sortPair(Container tab)
-{
-	// std::cout << "BEFORE = ";
-	// printContainer(tab);
-	//std::cout << std::endl;
-	//std::cout << "SORT   = ";
-	for (typename Container::iterator it = tab.begin(); it != tab.end(); ++it)
-	{
-		if (it + 1 != tab.end())
-		{
-		//	std::cout << "(" << *(it + 1) << ", " << *it << ")";
-			if ((*(it + 1)) > (*it))
-				std::swap((*it), (*(it + 1)));
-			++it;
-		}
-	}
-	//std::cout << std::endl;
-	// std::cout << "AFTER  = ";
-	// printContainer(tab);
-	// std::cout << std::endl;
-	return tab;
-}
-
-template<class Container>
 void printContainer(Container tab)
 {
 	for (typename Container::iterator it = tab.begin(); it != tab.end(); ++it)
@@ -211,46 +255,7 @@ void printContainer(Container tab)
 	std::cout << std::endl;
 }
 
-template<class Container>
-void printAdrContainer(Container &tab)
+unsigned int JacobsthalSuitCalcul(unsigned int n)
 {
-	int i = 0;
-	for (typename Container::iterator it = tab.begin(); it != tab.end(); ++it)
-	{
-		if (it + 1 != tab.end())
-		{
-			std::cout << "(" << &tab[i] << ", " << &(tab[i + 1]) << ")";
-			it++;
-			i++;
-		}
-		else
-			std::cout << *it;
-		i++;
-	}
-	std::cout << std::endl;
-}
-
-template<class Container>
-void printPtrContainer(Container &tab)
-{
-	for (typename Container::iterator it = tab.begin(); it != tab.end(); ++it)
-	{
-		if (it + 1 != tab.end())
-		{
-			std::cout << "(" << *(*it) << ", " << *(*it + 1) << ")";
-			it++;
-		}
-		else
-			std::cout << **it;
-	}
-	std::cout << std::endl;
-}
-
-template<class PairContainer>
-void printPairContainer(PairContainer tab)
-{
-	for (typename PairContainer::iterator it = tab.begin(); it != tab.end(); ++it)
-	{
-		std::cout << it->first << " " << it->second << std::endl;
-	}
+	return ((pow(2, n) - pow(-1, n)) / 3 * 2); 
 }

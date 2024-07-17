@@ -6,7 +6,7 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 18:25:17 by aranger           #+#    #+#             */
-/*   Updated: 2024/07/16 18:12:27 by aranger          ###   ########.fr       */
+/*   Updated: 2024/07/17 23:16:32 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <utility>
 # include <algorithm>
 # include <cstring>
+# include <cmath>
 
 class  PmergeMe
 {
@@ -42,24 +43,13 @@ void    fordJhonsonSort(Container toSort);
 
 template<class Container, class PairContainer>
 PairContainer makePair(Container tab);
-template<class Container>
-Container sortPair(Container tab);
 
 template<class Container>
 void printContainer(Container tab);
 
-template<class PairContainer>
-void printPairContainer(PairContainer tab);
-
-template<class Container>
-void printPtrContainer(Container &tab);
-
-template<class Container>
-void printAdrContainer(Container &tab);
-
 template <class Container, class ptrContainer>
 ptrContainer mergeInsertion(Container values, ptrContainer ptr);
-template <class Container, class PairContainer>
-PairContainer mergeInsertion2(PairContainer values);
+
+unsigned int JacobsthalSuitCalcul(unsigned int n);
 
 #endif
