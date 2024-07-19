@@ -37,7 +37,8 @@ PmergeMe::~PmergeMe()
 
 void    PmergeMe::sort()
 {
-	fordJhonsonSort<std::vector<int>, std::vector<Pair> >(this->_vector);
+	//fordJhonsonSort<std::vector<int>, std::vector<Pair> >(this->_vector);
+	fordJhonsonSort<std::deque<int>, std::deque<Pair> >(this->_deque);
 }
 
 template <class Container, class ptrContainer>
@@ -66,6 +67,7 @@ void	fordJhonsonSort(Container toSort)
 	}
 	pair = mergeInsertion<Container, ptrContainer>(pair);
 
+	std::cout << "DE RETORU DANS LE MAIN" << std::endl;
 	for(typename ptrContainer::iterator it = pair.begin(); it != pair.end(); ++it)
 	{
 		output.insert(output.begin(), it->getMax());
@@ -123,7 +125,8 @@ void	fordJhonsonSort(Container toSort)
 template <class Container, class ptrContainer>
 ptrContainer mergeInsertion(ptrContainer pairs)
 {
-	std::cout << "DANS MERGE INSERTION" << std::endl;
+	/* MAKE AND SOR NEW PAIRS */
+
 	ptrContainer	newTab;
 	if (pairs.size() <= 1)
 		return pairs;
@@ -139,11 +142,10 @@ ptrContainer mergeInsertion(ptrContainer pairs)
 			(newTab.end() - 1)->addRest(&*it);
 	}
 	for(typename ptrContainer::iterator it = newTab.begin(); it != newTab.end(); ++it)
-	{
-		it->printPair();
 		it->sortPair();
-		it->printPair();		
-	}
+
+	/* RECURSIVLY SORT */
+
 	ptrContainer output = mergeInsertion<Container, ptrContainer>(newTab);
 	std::cout << " AFTER RECURCIVE " << std::endl;
 	ptrContainer sortedList;
@@ -154,11 +156,17 @@ ptrContainer mergeInsertion(ptrContainer pairs)
 	for(typename ptrContainer::iterator it = output.begin(); it != output.end(); ++it)
 	{
 		if (it->getRest() != NULL)
-			rest = &*(it->getRest()); 
+		 	rest = &*(it->getRest()); 
 		sortedList.push_back(*(it->getPairMax()));
 	}
 	sortedList.push_back(*(output.end() - 1)->getPairMin());
 	output.erase((output.end() - 1));
+
+	for(typename ptrContainer::iterator it = sortedList.begin(); it != sortedList.end(); ++it)
+	{
+		it->printPair();		
+	}
+
 
 	/* INSERT REST IF EXIST */
 
@@ -168,16 +176,7 @@ ptrContainer mergeInsertion(ptrContainer pairs)
 		sortedList.insert(it, *rest);
 	}
 
-	/* INSERT MIN */
-	
-	// for(typename ptrContainer::iterator it = output.begin(); (it + 1) != output.end(); ++it)
-	// {
-	// 	std::vector<Pair>::iterator insert = std::lower_bound(sortedList.begin(), sortedList.end(), *(it->getPairMin()), pairCompare);
-	// 	sortedList.insert(insert, *(it->getPairMin()));
-	// }
-
-
-    /* INSERT MIN ACCORDING TO JACOBSTAHL SEQUENCE FROM THE END */
+    /* INSERT MIN WITH JACOBSTAHL SEQUENCE */
 
     unsigned int jacobIndex = 1;
 	bool		a = true;
@@ -205,16 +204,6 @@ ptrContainer mergeInsertion(ptrContainer pairs)
 		}
         jacobIndex++;
     }
-
-    // /* HANDLE REMAINING PAIRS */
-    // for (unsigned int i = 0; i < output.size(); ++i)
-    // {
-    //     if (!inserted[i])
-    //     {
-    //         std::vector<Pair>::iterator insert = std::lower_bound(sortedList.begin(), sortedList.end(), *(output[i].getPairMin()), pairCompare);
-    //         sortedList.insert(insert, *(output[i].getPairMin()));
-    //     }
-    // }
 
 	for(typename ptrContainer::iterator it = sortedList.begin(); it != sortedList.end(); ++it)
 	{

@@ -105,10 +105,10 @@ void    Pair::sortPair()
 
 void    Pair::printPair()
 {
-    std::cout << this->_max << " " << this->_min << std::endl;
-    //std::cout << "REST = " << _rest << std::endl;
-    //std::cout << "pairMax = " << _pairMax << std::endl;
-    //std::cout << "pairMin = " << _pairMin << std::endl;
+    std::cout << this->_max << " " << this->_min;
+    std::cout << "  REST = " << _rest;
+    std::cout << "  pairMax = " << _pairMax;
+    std::cout << "  pairMin = " << _pairMin << std::endl;
 
 }
 
