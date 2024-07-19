@@ -43,8 +43,10 @@ void    PmergeMe::sort()
 template <class Container, class ptrContainer>
 void	fordJhonsonSort(Container toSort)
 {
+	Container		output;
 	ptrContainer	pair;
-	
+	int				rest = -1;
+
 	for(typename Container::iterator it = toSort.begin(); it != toSort.end(); ++it)
 	{
 		if (it + 1 != toSort.end())
@@ -53,8 +55,9 @@ void	fordJhonsonSort(Container toSort)
 			++it;
 		}
 		else
-			pair.push_back(Pair(*it, -1));
+			rest = *it;
 	}
+	/* SORT PAIR */
 	for(typename ptrContainer::iterator it = pair.begin(); it != pair.end(); ++it)
 	{
 		it->printPair();
@@ -62,6 +65,59 @@ void	fordJhonsonSort(Container toSort)
 		it->printPair();		
 	}
 	pair = mergeInsertion<Container, ptrContainer>(pair);
+
+	for(typename ptrContainer::iterator it = pair.begin(); it != pair.end(); ++it)
+	{
+		output.insert(output.begin(), it->getMax());
+		if (it + 1 == pair.end())
+		{
+			output.insert(output.begin(), it->getMin());
+			pair.erase((pair.end() - 1));
+			break;
+		}
+	}
+
+	if (rest != -1)
+	{
+		typename Container::iterator it = std::lower_bound(output.begin(), output.end(), rest);
+		output.insert(it, rest);
+	}
+
+	unsigned int jacobIndex = 1;
+	bool		a = true;
+    while (a)
+    {
+
+        unsigned int pos = JacobsthalSuitCalcul(jacobIndex);
+		typename ptrContainer::iterator end = pair.end();
+		typename ptrContainer::iterator start = end;
+		while (pos != 0)
+		{
+			if (start == pair.begin())
+			{
+				a = false;
+				break;
+			}
+			start--;
+			pos--;
+		}
+		while (start != pair.end())
+		{
+			typename Container::iterator insert = std::lower_bound(output.begin(), output.end(), (start->getMin()));
+			output.insert(insert, start->getMin());
+			pair.erase(start);
+		}
+        jacobIndex++;
+    }
+
+
+
+	for(typename Container::iterator it = output.begin(); it != output.end(); ++it)
+	{
+		std::cout << *it << " ";
+	}
+
+	std::cout << std::endl;
 }
 
 template <class Container, class ptrContainer>
@@ -102,18 +158,13 @@ ptrContainer mergeInsertion(ptrContainer pairs)
 		sortedList.push_back(*(it->getPairMax()));
 	}
 	sortedList.push_back(*(output.end() - 1)->getPairMin());
+	output.erase((output.end() - 1));
 
 	/* INSERT REST IF EXIST */
-	
-	// if (rest != NULL)
-	// {
-	// 	std::cout << "RESTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT" << std::endl;
-	// 	rest->printPair();
-	// 	std::cout << "RESTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT" << std::endl;
-	// }
+
 	if (rest != NULL)
 	{
-		std::vector<Pair>::iterator it = std::lower_bound(sortedList.begin(), sortedList.end(), *rest, pairCompare);
+		typename ptrContainer::iterator it = std::lower_bound(sortedList.begin(), sortedList.end(), *rest, pairCompare);
 		sortedList.insert(it, *rest);
 	}
 
@@ -124,71 +175,46 @@ ptrContainer mergeInsertion(ptrContainer pairs)
 	// 	std::vector<Pair>::iterator insert = std::lower_bound(sortedList.begin(), sortedList.end(), *(it->getPairMin()), pairCompare);
 	// 	sortedList.insert(insert, *(it->getPairMin()));
 	// }
-	
-	typename ptrContainer::iterator start, end;
-	unsigned int index = 0;
-	unsigned int n = 1;
-	unsigned int JacobsthalNumber = 0;
 
-	for (typename ptrContainer::iterator it = output.begin(); (it + 1) != output.end(); ++it)
-	{
-		std::cout << " it ";
-		//it->printPair();
-		start = end = it;
-		index = 0;
-		JacobsthalNumber = JacobsthalSuitCalcul(n);
-		std::cout << "JacobsthalNumber = " << JacobsthalNumber << std::endl;
-		
-		// Incrémente end jusqu'à atteindre JacobsthalNumber ou la fin du conteneur
-		while (index < JacobsthalNumber && (end + 1) != output.end())
+
+    /* INSERT MIN ACCORDING TO JACOBSTAHL SEQUENCE FROM THE END */
+
+    unsigned int jacobIndex = 1;
+	bool		a = true;
+    while (a)
+    {
+
+        unsigned int pos = JacobsthalSuitCalcul(jacobIndex);
+		typename ptrContainer::iterator end = output.end();
+		typename ptrContainer::iterator start = end;
+		while (pos != 0)
 		{
-			index++;
-			end++;
+			if (start == output.begin())
+			{
+				a = false;
+				break;
+			}
+			start--;
+			pos--;
 		}
-		std::cout << "JACOB " << std::endl;
-		// Insère les éléments dans sortedList dans l'ordre inverse
-		while (end != start)
+		while (start != output.end())
 		{
-			std::vector<Pair>::iterator insert = std::lower_bound(sortedList.begin(), sortedList.end(), *(end->getPairMin()), pairCompare);
-			sortedList.insert(insert, *(end->getPairMin()));
-			--end;
-		}
-		
-		//Assurez-vous d'insérer start->getPairMin() si start != end
-		if (start != end)
-		{
-			std::vector<Pair>::iterator insert = std::lower_bound(sortedList.begin(), sortedList.end(), *(start->getPairMin()), pairCompare);
+			typename ptrContainer::iterator insert = std::lower_bound(sortedList.begin(), sortedList.end(), *(start->getPairMin()), pairCompare);
 			sortedList.insert(insert, *(start->getPairMin()));
+			output.erase(start);
 		}
-		n++;
-		//it += JacobsthalNumber;
-	}
+        jacobIndex++;
+    }
 
-
-	// for(typename ptrContainer::iterator it = output.begin(); (it + 1) != output.end(); ++it)
-	// {
-	// 	std::cout << " it " ;
-	// 	it->printPair();
-	// 	start = end = it;
-	// 	index = 0;
-	// 	JacobsthalNumber = JacobsthalSuitCalcul(n);
-	// 	std::cout << "JacobsthalNumber = " << JacobsthalNumber << std::endl;
-	// 	while (index < JacobsthalNumber && end + 2 != output.end())
-	// 	{
-	// 		index++;
-	// 		it++;
-	// 		end++;
-	// 		//end->printPair();
-	// 	}
-	// 	std::cout << "JACOB " << std::endl;	
-	// 	while (end != start)
-	// 	{
-	// 		std::vector<Pair>::iterator insert = std::lower_bound(start, sortedList.end(), *(end->getPairMin()), pairCompare);
-	// 		sortedList.insert(insert, *(end->getPairMin()));
-	// 		end--;
-	// 	}
-	// 	n++;
-	// }
+    // /* HANDLE REMAINING PAIRS */
+    // for (unsigned int i = 0; i < output.size(); ++i)
+    // {
+    //     if (!inserted[i])
+    //     {
+    //         std::vector<Pair>::iterator insert = std::lower_bound(sortedList.begin(), sortedList.end(), *(output[i].getPairMin()), pairCompare);
+    //         sortedList.insert(insert, *(output[i].getPairMin()));
+    //     }
+    // }
 
 	for(typename ptrContainer::iterator it = sortedList.begin(); it != sortedList.end(); ++it)
 	{
