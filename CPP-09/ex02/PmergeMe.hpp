@@ -48,7 +48,7 @@ template<class Container>
 void printContainer(Container tab);
 
 template <class Container, class ptrContainer>
-ptrContainer mergeInsertion(Container values, ptrContainer ptr);
+ptrContainer mergeInsertion(ptrContainer pairs);
 
 unsigned int JacobsthalSuitCalcul(unsigned int n);
 
