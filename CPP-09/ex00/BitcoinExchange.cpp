@@ -103,7 +103,7 @@ void	BitcoinExchange::convertWallet(std::string wallet)
 					it = this->_data.lower_bound(date);
 					if(it == this->_data.end())
 					{
-						std::cerr << "Error : invalid date" << std::endl;
+						std::cerr << "Error : No data available for this date" << std::endl;
 						continue;
 					}
 					else if ((it != this->_data.begin() && it->first.compare(date) != 0))

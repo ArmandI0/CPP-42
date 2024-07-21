@@ -51,7 +51,7 @@ void	rpnCalculate(std::string entry)
 				else
 					throw std::out_of_range("Error : invalid argument");
 			}
-			else if(tmp.find_first_not_of("0123456789") != std::string::npos)
+			else if(tmp.find_first_not_of("0123456789") == std::string::npos)
 			{
 				int nb = std::atoi(tmp.c_str());
 				if (nb < 0 || nb > 9)

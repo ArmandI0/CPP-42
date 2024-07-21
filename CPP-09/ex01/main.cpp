@@ -15,14 +15,17 @@
 int main(int ac, char **argv)
 {
 	if (ac != 2)
+	{
+		std::cout << "Error: invalid input. Please enter a valid expression like '1 2 +' " << std::endl;
 		return 1;
+	}
 	try
 	{
 		rpnCalculate(argv[1]);
 	}
 	catch(const std::exception& e)
 	{
-		std::cerr << e.what() << '\n';
+		std::cerr << e.what() << std::endl;
 	}
 	return 0;
 }
