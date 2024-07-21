@@ -6,7 +6,7 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 21:14:00 by aranger           #+#    #+#             */
-/*   Updated: 2024/07/06 16:51:01 by aranger          ###   ########.fr       */
+/*   Updated: 2024/07/21 16:22:21 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,47 +72,52 @@ void	BitcoinExchange::convertWallet(std::string wallet)
 	size_t		lineNumber = 1;
     double      entry = 0.0;
 
-    while (getline(data, line))
+	if (getline(data, line))
 	{
 		line.erase(std::remove_if(line.begin(), line.end(), isSpace), line.end());
 		if (lineNumber == 1 && line.compare("date|value") != 0)
 		{
 			std::cerr << "Error : invalid file or header." << std::endl;
-			break;
+			return;
 		}
-		else if (lineNumber != 1)
+	}
+	else
+	{
+		std::cerr << "Error : Empty file " << line << std::endl;
+		return;
+	}
+    while (getline(data, line))
+	{
+		line.erase(std::remove_if(line.begin(), line.end(), isSpace), line.end());
+		i = line.find('|');
+		if (i == -1)
+			std::cerr << "Error : bad input " << line << std::endl;
+		else
 		{
-			i = line.find('|');
-			if (i == -1)
-				std::cerr << "Error : bad input " << line << std::endl;
+			char* end;
+			entry = strtod(&line[i + 1], &end);
+			date = line.substr(0, i);
+			if (dateIsValid(date) == false)
+				std::cerr << "Error : invalid date : " << line << std::endl;
+			else if (end == &line[i + 1] || *end != 0)
+				std::cerr << "Error : invalid number." << std::endl;
+			else if (entry < 0.0)
+				std::cerr << "Error : not a positive number." << std::endl;
+			else if (entry > 1000)
+				std::cerr << "Error: too large number." << std::endl;				
 			else
 			{
-				char* end;
-				entry = strtod(&line[i + 1], &end);
-				date = line.substr(0, i);
-				if (dateIsValid(date) == false)
-					std::cerr << "Error : invalid date : " << line << std::endl;
-				else if (end == &line[i + 1] || *end != 0)
-					std::cerr << "Error : invalid number." << std::endl;
-				else if (entry < 0.0)
-					std::cerr << "Error : not a positive number." << std::endl;
-				else if (entry > 1000)
-					std::cerr << "Error: too large number." << std::endl;				
-				else
+				it = this->_data.lower_bound(date);
+				if(it == this->_data.end())
 				{
-					it = this->_data.lower_bound(date);
-					if(it == this->_data.end())
-					{
-						std::cerr << "Error : No data available for this date" << std::endl;
-						continue;
-					}
-					else if ((it != this->_data.begin() && it->first.compare(date) != 0))
-						it--;
-					std::cout << date << " => " << entry << " = " << entry * it->second << std::endl;
+					std::cerr << "Error : No data available for this date" << std::endl;
+					continue;
 				}
+				else if ((it != this->_data.begin() && it->first.compare(date) != 0))
+					it--;
+				std::cout << date << " => " << entry << " = " << entry * it->second << std::endl;
 			}
 		}
-		lineNumber++;
 	}
 }
 
@@ -141,11 +146,11 @@ bool	dateIsValid(std::string date)
 
 	if((year % 4 == 0 && year % 100 != 0) || year % 400 == 0)
 		bisextilYear = true;
-	if ((month == 2 && ((bisextilYear == false && day > 28) || (bisextilYear == true && day > 29))))
+	if ((month == 2 && ((bisextilYear == false && (day > 28 || day < 1)) || (bisextilYear == true && (day > 29|| day < 1)))))
 		boolean = false;
-	else if ((findMonth(month, fullMonth, 7) && day > 31) || month > 12)
+	else if ((findMonth(month, fullMonth, 7) && (day > 31 || day < 1)) || month > 12 || month < 1)
 		boolean = false;
-	else if (findMonth(month, leanMonth, 4) && day > 30)
+	else if (findMonth(month, leanMonth, 4) && (day > 30 || day < 1))
 		boolean = false;
 	regfree(&regex);
 	return boolean;

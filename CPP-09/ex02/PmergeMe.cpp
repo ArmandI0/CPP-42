@@ -6,7 +6,7 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 18:25:11 by aranger           #+#    #+#             */
-/*   Updated: 2024/07/18 00:03:49 by aranger          ###   ########.fr       */
+/*   Updated: 2024/07/21 16:47:17 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,23 +41,22 @@ void    PmergeMe::sort()
 	clock_t start = clock();
 	r = fordJhonsonSort<std::vector<int>, std::vector<Pair> >(this->_vector);
 	clock_t end = clock();
-	double time = (end - start)  / (double)CLOCKS_PER_SEC * 10;
-
+	double time = double(end - start) * 1000000 / (double)CLOCKS_PER_SEC;
 	std::cout << "Before: ";
 	printContainer(this->_vector);
 	std::cout << "After: ";
 	printContainer(r);
 
 	std::cout << "Time to process a range of " << this->_size << " elements with std::vector: ";
-	std::cout << std::fixed << std::setprecision(5) << time;
+	std::cout << std::fixed << std::setprecision(1) << time;
 	std::cout << " us" << std::endl;
 
 	start = clock();
 	fordJhonsonSort<std::deque<int>, std::deque<Pair> >(this->_deque);
 	end = clock();
-	time = (end - start)  / (double)CLOCKS_PER_SEC * 10;
+	time = double(end - start) * 1000000 / (double)CLOCKS_PER_SEC;
 	std::cout << "Time to process a range of " << this->_size << " elements with std::deque: ";
-	std::cout << std::fixed << std::setprecision(5) << time;
+	std::cout << std::fixed << std::setprecision(1) << time;
 	std::cout << " us" << std::endl;
 }
 
