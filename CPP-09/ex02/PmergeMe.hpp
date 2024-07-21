@@ -20,12 +20,14 @@
 # include <algorithm>
 # include <cstring>
 # include <cmath>
+# include <iomanip>
 
 class  PmergeMe
 {
     private :
         std::vector<int>					_vector;
         std::deque<int>						_deque;
+        int                                 _size;
 
         PmergeMe(PmergeMe &cpy);
         PmergeMe operator=(PmergeMe &cpy);
@@ -38,17 +40,14 @@ class  PmergeMe
         void    sort();
 };
 
-template < class Container, class PairContainer >
-void    fordJhonsonSort(Container toSort);
-
-template<class Container, class PairContainer>
-PairContainer makePair(Container tab);
-
-template<class Container>
-void printContainer(Container tab);
+template <class Container, class ptrContainer>
+Container	fordJhonsonSort(Container toSort);
 
 template <class Container, class ptrContainer>
 ptrContainer mergeInsertion(ptrContainer pairs);
+
+template<class Container>
+void printContainer(Container & tab);
 
 unsigned int JacobsthalSuitCalcul(unsigned int n);
 
