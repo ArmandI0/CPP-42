@@ -15,10 +15,7 @@
 # include <vector>
 # include <iostream>
 # include <deque>
-# include <iterator>
-# include <utility>
 # include <algorithm>
-# include <cstring>
 # include <cmath>
 # include <iomanip>
 

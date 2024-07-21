@@ -26,6 +26,7 @@ PmergeMe PmergeMe::operator=(PmergeMe &cpy)
 {
     this->_deque = cpy._deque;
 	this->_vector = cpy._vector;
+	this->_size = cpy._size;
 	return *this;
 }
 PmergeMe::~PmergeMe()
@@ -196,6 +197,7 @@ ptrContainer mergeInsertion(ptrContainer pairs)
     output.pop_back();
 
     /* INSERT MIN WITH JACOBSTHAL SEQUENCE */
+	
     unsigned int jacobIndex = 1;
     bool a = true;
     while (a)
@@ -230,13 +232,12 @@ void PmergeMe::tabCreate(int ac, char **av)
 		std::string str(av[i]);
 		if (str.find_first_not_of("0123456789") != std::string::npos)
 		{
-			std::cout << "find first of" << std::endl;
-			throw std::invalid_argument("Error : invalid argument");
+			throw std::invalid_argument("Error : numeric and positive arguments are required");
 		}
 		else if(str.size() > 10)
-			throw std::invalid_argument("Error : invalid argument");
+			throw std::invalid_argument("Error : The function accepts numbers between 0 and 2 147 483 647 as valid input.");
 		else if(str.size() == 10 && str.compare("2147483647") > 0)
-			throw std::invalid_argument("Error : invalid argument");
+			throw std::invalid_argument("Error : The function accepts numbers between 0 and 2 147 483 647 as valid input.");
 	}
 	for (int i = 1; i < ac; i++)
 	{

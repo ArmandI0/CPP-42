@@ -16,7 +16,7 @@ int main(int ac, char **av)
 {
     if (ac <= 2)
     {
-        std::cerr << "Error : aruments required" <<std::endl;
+        std::cerr << "Error : at least two arguments are required" <<std::endl;
         return 1;
 	}
 	PmergeMe a;

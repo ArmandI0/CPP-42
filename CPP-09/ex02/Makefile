@@ -7,6 +7,7 @@ EXEC = PmergeMe
 SRCS = \
 		main.cpp \
 		PmergeMe.cpp \
+		Pair.cpp \
 
 OBJS = $(SRCS:.cpp=.o)
 
