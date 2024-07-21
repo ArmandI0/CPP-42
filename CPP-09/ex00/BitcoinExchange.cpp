@@ -6,7 +6,7 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 21:14:00 by aranger           #+#    #+#             */
-/*   Updated: 2024/07/21 16:22:21 by aranger          ###   ########.fr       */
+/*   Updated: 2024/07/21 18:07:12 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,20 @@ void	BitcoinExchange::convertWallet(std::string wallet)
 			}
 		}
 	}
+}
+
+BitcoinExchange::BitcoinExchange(const BitcoinExchange & cpy)
+{
+    this->_data = cpy._data;
+}
+
+BitcoinExchange & BitcoinExchange::operator=(const BitcoinExchange & cpy)
+{
+    if (this != &cpy)
+	{
+        this->_data = cpy._data;
+    }
+    return *this;
 }
 
 bool	dateIsValid(std::string date)

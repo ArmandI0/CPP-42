@@ -6,7 +6,7 @@
 /*   By: aranger <aranger@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/16 21:14:05 by aranger           #+#    #+#             */
-/*   Updated: 2024/07/06 16:52:22 by aranger          ###   ########.fr       */
+/*   Updated: 2024/07/21 18:08:33 by aranger          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,8 @@
 # include <map>
 # include <string>
 # include <fstream>
-# include <sstream>
 # include <regex.h>
-# include <cstdlib>
 # include <algorithm> 
-# include <cctype>
-# include <cerrno> 
 
 class BitcoinExchange
 {
@@ -30,6 +26,9 @@ class BitcoinExchange
     public:
 	    BitcoinExchange();
         ~BitcoinExchange();
+        BitcoinExchange(const BitcoinExchange & cpy);
+        BitcoinExchange & operator=(const BitcoinExchange & cpy);
+        
 		void	convertWallet(std::string wallet);
 };
 
